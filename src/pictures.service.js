@@ -8,6 +8,7 @@ export default class NewApiPixabay {
     this.numberPage = 1;
     this.perPage = 40;
   }
+
   fetchGallerry() {
     console.log(this);
     return axios.get(`${this.#BASE_URL}`, {
@@ -24,10 +25,19 @@ export default class NewApiPixabay {
   }
   // передавання значення инпута в кoнcтруктор через місточок гет+сет.
   // визначаємо та перезаписуємо змінну значення
+
   get ValueForSearch() {
     return this.valueForSearch;
   }
   set ValueForSearch(value) {
     this.valueForSearch = value;
+  }
+
+  incrementPage() {
+    this.page += 1;
+  }
+
+  resetPage() {
+    this.page = 1;
   }
 }

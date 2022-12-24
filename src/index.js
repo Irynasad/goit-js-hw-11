@@ -1,17 +1,18 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
+import NewApiPixabay from './pictures.service';
 import axios from 'axios';
 // const axios = require('axios').default;
 import NewApiPixabay from './pictures.service';
 
-const NewApiPixabay = new NewApiPixabay();
+const newApiPixabay = new NewApiPixabay();
 
 const refs = {
   form: document.querySelector('#search-form'),
   container: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
-console.log(refs);
+// console.log(refs);
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -19,15 +20,22 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 function onSearch(e) {
   e.preventDefault();
   console.log('форма слушает');
-  NewApiPixabay.value = e.currentTarget.elements.searchQuery.value;
-  console.log(NewApiPixabay.value);
-  NewApiPixabay.fetchGallerry();
+  newApiPixabay.value = e.currentTarget.elements.searchQuery.value;
+  newApiPixabay.resetPage();
+  console.log(newApiPixabay.value);
+  newApiPixabay.fetchGallerry().then(data => {
+    console.log(data);
+    const gallery = data.hits;
+    console.log(data.hits);
+    return gallery;
+  });
 }
 
 function onLoadMore(e) {
   e.preventDefault();
   console.log('клик на кнопке');
-  NewApiPixabay.fetchGallerry();
+  newApiPixabay.fetchGallerry();
+  newApiPixabay.incrementPage();
 }
 
 // const getItemTemplait = () => {
