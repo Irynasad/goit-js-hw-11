@@ -1,29 +1,34 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 import axios from 'axios';
-// const key = 32306530 - bed9e4ec976e510d33adb63ac;
-// axios.defaults.baseURL = 'https://pixabay.com/api/';
-const URL = 'https://pixabay.com/api/';
-
 // const axios = require('axios').default;
+import NewApiPixabay from './pictures.service';
 
-function fetchImgs() {
-  return axios
-    .get(
-      '$URL?key=32306530 - bed9e4ec976e510d33adb63ac&q=yellow+flowers&image_type=photo'
-    )
-    .then(console.log);
-}
-fetchImgs();
+const NewApiPixabay = new NewApiPixabay();
 
-function onfetch() {
-  fetch(
-    '$URL?key=32306530 - bed9e4ec976e510d33adb63ac&q=yellow+flowers&image_type=photo'
-  )
-    .then(r => r.json())
-    .then(console.log);
+const refs = {
+  form: document.querySelector('#search-form'),
+  container: document.querySelector('.gallery'),
+  loadMoreBtn: document.querySelector('.load-more'),
+};
+console.log(refs);
+
+refs.form.addEventListener('submit', onSearch);
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
+
+function onSearch(e) {
+  e.preventDefault();
+  console.log('форма слушает');
+  NewApiPixabay.value = e.currentTarget.elements.searchQuery.value;
+  console.log(NewApiPixabay.value);
+  NewApiPixabay.fetchGallerry();
 }
-onfetch();
+
+function onLoadMore(e) {
+  e.preventDefault();
+  console.log('клик на кнопке');
+  NewApiPixabay.fetchGallerry();
+}
 
 // const getItemTemplait = () => {
 //   `<div class="photo-card">
@@ -44,3 +49,11 @@ onfetch();
 //   </div>
 // </div>`;
 // };
+
+// webformatURL,
+// largeImageURL,
+// tags,
+// likes,
+// views,
+// comments,
+// downloads,
