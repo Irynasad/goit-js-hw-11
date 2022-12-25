@@ -80,11 +80,16 @@ const lightbox = new simpleLightbox('.gallery a', {
 });
 
 function showLoadMoreBtn(hits) {
-  if (hits.length <= 40) {
-    return;
+  if (hits.length >= 40) {
+    return refs.loadMoreBtn.classList.remove('is-hidden');
   } else {
-    refs.loadMoreBtn.classList.remove('is-hidden');
+    return;
   }
+  // if (hits.length <= 40) {
+  //   return;
+  // } else {
+  //   refs.loadMoreBtn.classList.remove('is-hidden');
+  // }
 }
 
 async function fetchGallerry() {
