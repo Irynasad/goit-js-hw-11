@@ -21,26 +21,51 @@ async function onSearch(e) {
   e.preventDefault();
   console.log('форма слушает');
   clearGallery();
-  newApiPixabay.value = e.currentTarget.elements.searchQuery.value
+  newApiPixabay.valueForSearch = e.currentTarget.elements.searchQuery.value
     .trim()
     .toLowerCase();
+
+  console.log(newApiPixabay.valueForSearch);
+
+  // newApiPixabay.resetPage();
+  // clearGallery();
+
+  if (!newApiPixabay.valueForSearch) {
+    return;
+  }
   newApiPixabay.resetPage();
-  console.log(newApiPixabay.value);
-  newApiPixabay
+  clearGallery();
+
+  const newHits = await fetchGallerry();
+
+  await newApiPixabay
     .fetchGallerry()
-    .then(data => {
-      return data.data;
+    .then(hits => {
+      console.log(hits);
+      //   render(newHits);
+      if (hits.length === 0) {
+        // loadMoreBTN.hide();
+        Notiflix.Notify.failure(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      } else {
+        // console.log(data.totalHits); не працює - бо це поверхом вище.
+        //   Notiflix.Notify.success('Sol lucet omnibus');
+        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+      }
     })
-    .then(body => {
-      const newHits = body.hits;
-      console.log(newHits);
-      render(newHits);
+    .catch(error => {
+      console.log(error);
     });
 }
-
-function render(newHits) {
+async function fetchGallerry() {
+  const fetchPictures = await newApiPixabay.fetchGallerry().then(hits => {
+    render(hits);
+  });
+}
+function render(hits) {
   //   refs.container.innerHTML = '';
-  refs.container.insertAdjacentHTML('beforeend', getItemTemplait(newHits));
+  refs.container.insertAdjacentHTML('beforeend', getItemTemplait(hits));
 }
 
 function onLoadMore(e) {
