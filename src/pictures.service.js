@@ -10,7 +10,7 @@ export default class NewApiPixabay {
   }
 
   fetchGallerry() {
-    console.log(this);
+    // console.log(this);
     return axios.get(`${this.#BASE_URL}`, {
       params: {
         key: this.#KEY,
