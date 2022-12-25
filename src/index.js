@@ -43,22 +43,26 @@ function onLoadMore(e) {
 }
 
 function render(pictures) {
-  const gallery = pictures.map(pictures => {
-    getItemTemplait(picture);
-  });
   refs.container.innerHTML = '';
-  refs.container.insertAdjacentHTML('beforeend', gallery);
+  refs.container.insertAdjacentElement('beforeend', getItemTemplait(pictures));
+  //   const gallery = pictures.map(pictures => {
+  //     getItemTemplait(picture);
+  //   });
+  //   refs.container.innerHTML = '';
+  //   refs.container.insertAdjacentHTML('beforeend', gallery);
 }
 
-function getItemTemplait({
-  webformatURL,
-  tags,
-  likes,
-  views,
-  comments,
-  downloads,
-}) {
-  `<div class="photo-card">
+function getItemTemplait(pictures) {
+  return pictures
+    .map(
+      ({
+        webformatURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `<div class="photo-card">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" width="370" height="240" />
   <div class="info">
     <p class="info-item">
@@ -74,7 +78,9 @@ function getItemTemplait({
       <b>${downloads}</b>
     </p>
   </div>
-</div>`;
+</div>`
+    )
+    .join('');
 }
 
 // webformatURL,
