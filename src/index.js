@@ -1,6 +1,7 @@
 import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 import NewApiPixabay from './pictures.service';
+import simpleLightbox from 'simplelightbox';
 import axios from 'axios';
 // const axios = require('axios').default;
 import NewApiPixabay from './pictures.service';
@@ -59,6 +60,16 @@ async function onSearch(e) {
       console.log(error);
     });
 }
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  /* options */
+  captionsData: 'alt',
+  captionPosition: 'top',
+  captionDelay: 250,
+  widthRatio: 0.8,
+  heightRatio: 0.8,
+});
+
 async function fetchGallerry() {
   const fetchPictures = await newApiPixabay.fetchGallerry().then(hits => {
     render(hits);
@@ -83,6 +94,7 @@ function getItemTemplait(pictures = []) {
   return pictures
     .map(
       ({
+        largeImageURL,
         webformatURL,
         tags,
         likes,
@@ -90,19 +102,20 @@ function getItemTemplait(pictures = []) {
         comments,
         downloads,
       }) => `<div class="photo-card">
+  <a class "gallery-link" href="${largeImageURL}">
   <img src="${webformatURL}" alt="${tags}" loading="lazy" width="370" height="240" />
   <div class="info">
     <p class="info-item">
-      <b>${likes}</b>
+      <b>Likes: </b>${likes}
     </p>
     <p class="info-item">
-      <b>${views}</b>
+      <b>Views: </b>${views}
     </p>
     <p class="info-item">
-      <b>${comments}</b>
+      <b>Comments: </b>${comments}
     </p>
     <p class="info-item">
-      <b>${downloads}</b>
+      <b>Downloads: </b>${downloads}
     </p>
   </div>
 </div>`
