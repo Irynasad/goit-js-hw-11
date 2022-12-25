@@ -57,10 +57,9 @@ async function onSearch(e) {
       } else {
         // console.log(data.totalHits); не працює - бо це поверхом вище.
         //   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-        Notiflix.Notify.success(`Hooray! We found СКІЛЬКИСЬ-ТО images.`);
+        Notiflix.Notify.success(`Hooray! We found ДУЖЕ БАГАЦЬКО images.`);
         clearGallery();
         render(hits);
-        // loadMoreBTN.show();
         lightbox.refresh();
         refs.loadMoreBtn.classList.remove('is-hidden');
       }
@@ -84,7 +83,6 @@ async function fetchGallerry() {
   });
 }
 function render(hits) {
-  //   refs.container.innerHTML = '';
   refs.container.insertAdjacentHTML('beforeend', getItemTemplait(hits));
 }
 
@@ -129,11 +127,3 @@ function getItemTemplait(pictures = []) {
     )
     .join('');
 }
-
-// webformatURL,
-// largeImageURL,
-// tags,
-// likes,
-// views,
-// comments,
-// downloads,
