@@ -30,8 +30,8 @@ function onSearch(e) {
       return data.data;
     })
     .then(body => {
-      pictures = body.hits;
-      render(pictures);
+      const newHits = body.hits;
+      render(newHits);
     });
 }
 
@@ -41,10 +41,12 @@ function onLoadMore(e) {
   newApiPixabay.fetchGallerry();
   newApiPixabay.incrementPage();
 }
-
-function render(pictures) {
+function clearGallery() {
   refs.container.innerHTML = '';
-  refs.container.insertAdjacentElement('beforeend', getItemTemplait(pictures));
+}
+function render(newHits) {
+  //   refs.container.innerHTML = '';
+  refs.container.insertAdjacentElement('beforeend', getItemTemplait(newHits));
   //   const gallery = pictures.map(pictures => {
   //     getItemTemplait(picture);
   //   });
@@ -55,27 +57,20 @@ function render(pictures) {
 function getItemTemplait(pictures) {
   return pictures
     .map(
-      ({
-        webformatURL,
-        tags,
-        likes,
-        views,
-        comments,
-        downloads,
-      }) => `<div class="photo-card">
-  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="370" height="240" />
+      pictures => picture`<div class="photo-card">
+  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" width="370" height="240" />
   <div class="info">
     <p class="info-item">
-      <b>${likes}</b>
+      <b>${picture.likes}</b>
     </p>
     <p class="info-item">
-      <b>${views}</b>
+      <b>${picture.views}</b>
     </p>
     <p class="info-item">
-      <b>${comments}</b>
+      <b>${picture.comments}</b>
     </p>
     <p class="info-item">
-      <b>${downloads}</b>
+      <b>${picture.downloads}</b>
     </p>
   </div>
 </div>`
