@@ -34,5 +34,28 @@
 .info {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 10px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: blue;
+  height: 45px;
+}
+
+.load-more {
+  display: block;
+  margin: 0, auto;
+}
+
+.load-more.is-hidden {
+  display: none;
 }/*# sourceMappingURL=index.css.map */

@@ -20,7 +20,7 @@ export default class NewApiPixabay {
           orientation: 'horizontal',
           safesearch: true,
           per_page: this.perPage,
-          page: this.numberPage,
+          numberPage: this.numberPage,
         },
       })
       .then(data => {
@@ -43,10 +43,10 @@ export default class NewApiPixabay {
   }
 
   incrementPage() {
-    this.page += 1;
+    this.numberPage += 1;
   }
 
   resetPage() {
-    this.page = 1;
+    this.numberPage = 1;
   }
 }

@@ -16,8 +16,11 @@
   align-items: center;
 }
 .search-form {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: blue;
+  height: 45px;
 }
 
 .load-more {
