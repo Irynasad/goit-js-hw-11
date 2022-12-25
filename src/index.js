@@ -51,7 +51,8 @@ async function onSearch(e) {
       } else {
         // console.log(data.totalHits); не працює - бо це поверхом вище.
         //   Notiflix.Notify.success('Sol lucet omnibus');
-        Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        //   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        Notiflix.Notify.success(`Hooray! We found СКІЛЬКИСЬ-ТО images.`);
       }
     })
     .catch(error => {
