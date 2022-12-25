@@ -61,13 +61,15 @@ async function onSearch(e) {
         clearGallery();
         render(hits);
         lightbox.refresh();
-        refs.loadMoreBtn.classList.remove('is-hidden');
+        showLoadMoreBtn(hits.length);
+        // refs.loadMoreBtn.classList.remove('is-hidden');
       }
     })
     .catch(error => {
       console.log(error);
     });
 }
+
 const lightbox = new simpleLightbox('.gallery a', {
   /* options */
   captionsData: 'alt',
@@ -76,6 +78,14 @@ const lightbox = new simpleLightbox('.gallery a', {
   widthRatio: 0.8,
   heightRatio: 0.8,
 });
+
+function showLoadMoreBtn(hits) {
+  if (hits.length <= 40) {
+    return;
+  } else {
+    refs.loadMoreBtn.classList.remove('is-hidden');
+  }
+}
 
 async function fetchGallerry() {
   await newApiPixabay.fetchGallerry().then((hits, totalHits) => {
@@ -87,8 +97,7 @@ function render(hits) {
   refs.container.insertAdjacentHTML('beforeend', getItemTemplait(hits));
 }
 
-function onLoadMore(e) {
-  console.log('клик на кнопке');
+function onLoadMore() {
   newApiPixabay.fetchGallerry().then(render);
 }
 

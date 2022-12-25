@@ -5,7 +5,7 @@ export default class NewApiPixabay {
   #KEY = '32306530-bed9e4ec976e510d33adb63ac';
   constructor() {
     this.valueForSearch = '';
-    this.numberPage = 1;
+    this.page = 1;
     this.perPage = 40;
   }
 
@@ -20,7 +20,7 @@ export default class NewApiPixabay {
           orientation: 'horizontal',
           safesearch: true,
           per_page: this.perPage,
-          numberPage: this.numberPage,
+          page: this.numberPage,
         },
       })
       .then(data => {
