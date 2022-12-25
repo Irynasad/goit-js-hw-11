@@ -56,7 +56,7 @@ async function onSearch(e) {
         );
       } else {
         // console.log(data.totalHits); не працює - бо це поверхом вище.
-        //   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+        // Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
         Notiflix.Notify.success(`Hooray! We found ДУЖЕ БАГАЦЬКО images.`);
         clearGallery();
         render(hits);
@@ -78,8 +78,9 @@ const lightbox = new simpleLightbox('.gallery a', {
 });
 
 async function fetchGallerry() {
-  await newApiPixabay.fetchGallerry().then(hits => {
+  await newApiPixabay.fetchGallerry().then((hits, totalHits) => {
     render(hits);
+    return totalHits;
   });
 }
 function render(hits) {
