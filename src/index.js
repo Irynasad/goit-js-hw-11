@@ -2,7 +2,8 @@ import Notiflix from 'notiflix';
 import 'notiflix/dist/notiflix-3.2.5.min.css';
 import NewApiPixabay from './pictures.service';
 import simpleLightbox from 'simplelightbox';
-import axios from 'axios';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+// import axios from 'axios';
 // const axios = require('axios').default;
 import NewApiPixabay from './pictures.service';
 
@@ -37,21 +38,19 @@ async function onSearch(e) {
   newApiPixabay.resetPage();
   clearGallery();
 
-  const newHits = await fetchGallerry();
+  // await fetchGallerry();
 
   await newApiPixabay
     .fetchGallerry()
     .then(hits => {
       console.log(hits);
-      //   render(newHits);
+
       if (hits.length === 0) {
-        // loadMoreBTN.hide();
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
         // console.log(data.totalHits); не працює - бо це поверхом вище.
-        //   Notiflix.Notify.success('Sol lucet omnibus');
         //   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         Notiflix.Notify.success(`Hooray! We found СКІЛЬКИСЬ-ТО images.`);
         clearGallery();
@@ -64,8 +63,7 @@ async function onSearch(e) {
       console.log(error);
     });
 }
-
-const lightbox = new SimpleLightbox('.gallery a', {
+const lightbox = new simpleLightbox('.gallery a', {
   /* options */
   captionsData: 'alt',
   captionPosition: 'top',
@@ -75,7 +73,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
 });
 
 async function fetchGallerry() {
-  const fetchPictures = await newApiPixabay.fetchGallerry().then(hits => {
+  await newApiPixabay.fetchGallerry().then(hits => {
     render(hits);
   });
 }
@@ -85,11 +83,10 @@ function render(hits) {
 }
 
 function onLoadMore(e) {
-  e.preventDefault();
   console.log('клик на кнопке');
   newApiPixabay.fetchGallerry().then(render);
-  newApiPixabay.incrementPage();
 }
+
 function clearGallery() {
   refs.container.innerHTML = '';
 }

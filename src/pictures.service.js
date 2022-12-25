@@ -27,6 +27,7 @@ export default class NewApiPixabay {
         return data.data;
       })
       .then(body => {
+        this.incrementPage();
         return body.hits;
         console.log(body.hits);
       });
