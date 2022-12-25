@@ -61,7 +61,7 @@ async function onSearch(e) {
         clearGallery();
         render(hits);
         lightbox.refresh();
-        showLoadMoreBtn(hits.length);
+        showLoadMoreBtn(hits);
         // refs.loadMoreBtn.classList.remove('is-hidden');
       }
     })
