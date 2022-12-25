@@ -54,6 +54,10 @@ async function onSearch(e) {
         //   Notiflix.Notify.success('Sol lucet omnibus');
         //   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
         Notiflix.Notify.success(`Hooray! We found СКІЛЬКИСЬ-ТО images.`);
+        clearGallery();
+        render(hits);
+        // loadMoreBTN.show();
+        lightbox.refresh();
       }
     })
     .catch(error => {
@@ -83,7 +87,7 @@ function render(hits) {
 function onLoadMore(e) {
   e.preventDefault();
   console.log('клик на кнопке');
-  newApiPixabay.fetchGallerry();
+  newApiPixabay.fetchGallerry().then(render);
   newApiPixabay.incrementPage();
 }
 function clearGallery() {
