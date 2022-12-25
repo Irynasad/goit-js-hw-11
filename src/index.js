@@ -3,11 +3,14 @@ import 'notiflix/dist/notiflix-3.2.5.min.css';
 import NewApiPixabay from './pictures.service';
 import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+// import LoadMoreBtn from './load-more-btn';
 // import axios from 'axios';
 // const axios = require('axios').default;
 import NewApiPixabay from './pictures.service';
 
 const newApiPixabay = new NewApiPixabay();
+// const loadMoreBtn = new LoadMoreBtn({ selector: '.load-more', hidden: true });
+// console.log(loadMoreBtn);
 
 const refs = {
   form: document.querySelector('#search-form'),
@@ -15,6 +18,8 @@ const refs = {
   loadMoreBtn: document.querySelector('.load-more'),
 };
 // console.log(refs);
+
+refs.loadMoreBtn.classList.add('is-hidden');
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
@@ -57,6 +62,7 @@ async function onSearch(e) {
         render(hits);
         // loadMoreBTN.show();
         lightbox.refresh();
+        refs.loadMoreBtn.classList.remove('is-hidden');
       }
     })
     .catch(error => {
