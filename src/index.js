@@ -20,6 +20,7 @@ refs.loadMoreBtn.addEventListener('click', onLoadMore);
 async function onSearch(e) {
   e.preventDefault();
   console.log('форма слушает');
+  clearGallery();
   newApiPixabay.value = e.currentTarget.elements.searchQuery.value
     .trim()
     .toLowerCase();
@@ -37,6 +38,11 @@ async function onSearch(e) {
     });
 }
 
+function render(newHits) {
+  //   refs.container.innerHTML = '';
+  refs.container.insertAdjacentHTML('beforeend', getItemTemplait(newHits));
+}
+
 function onLoadMore(e) {
   e.preventDefault();
   console.log('клик на кнопке');
@@ -46,28 +52,31 @@ function onLoadMore(e) {
 function clearGallery() {
   refs.container.innerHTML = '';
 }
-function render(newHits) {
-  //   refs.container.innerHTML = '';
-  refs.container.insertAdjacentElement('beforeend', getItemTemplait(newHits));
-}
 
 function getItemTemplait(pictures = []) {
   return pictures
     .map(
-      pictures => `<div class="photo-card">
-  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" width="370" height="240" />
+      ({
+        webformatURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      }) => `<div class="photo-card">
+  <img src="${webformatURL}" alt="${tags}" loading="lazy" width="370" height="240" />
   <div class="info">
     <p class="info-item">
-      <b>${picture.likes}</b>
+      <b>${likes}</b>
     </p>
     <p class="info-item">
-      <b>${picture.views}</b>
+      <b>${views}</b>
     </p>
     <p class="info-item">
-      <b>${picture.comments}</b>
+      <b>${comments}</b>
     </p>
     <p class="info-item">
-      <b>${picture.downloads}</b>
+      <b>${downloads}</b>
     </p>
   </div>
 </div>`
