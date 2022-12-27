@@ -14,7 +14,6 @@ const refs = {
 };
 
 refs.loadMoreBtn.classList.add('is-hidden');
-// let hits = [];
 let totalHits = 0;
 
 refs.form.addEventListener('submit', onSearch);
@@ -32,7 +31,7 @@ async function onSearch(e) {
   }
   newApiPixabay.resetPage();
   clearGallery();
-  refs.loadMoreBtn.classList.add('is-hidden');
+  // refs.loadMoreBtn.classList.add('is-hidden');
 
   await newApiPixabay
     .fetchGallerry()
@@ -66,8 +65,7 @@ const lightbox = new simpleLightbox('.gallery a', {
 function showLoadMoreBtn(hits, totalHits) {
   if (
     hits.length === totalHits ||
-    newApiPixabay.incrementPage() ===
-      Math.ceil(totalHits / newApiPixabay.perPage)
+    newApiPixabay.numberPage === Math.floor(totalHits / newApiPixabay.perPage)
   ) {
     refs.loadMoreBtn.classList.add('is-hidden');
   } else {
@@ -82,12 +80,11 @@ function render(hits) {
 function onLoadMore(hits, totalHits) {
   // showLoadMoreBtn(hits, totalHits);
   newApiPixabay.incrementPage();
-  // showLoadMoreBtn(hits, totalHits);
-
+  showLoadMoreBtn(hits, totalHits);
   newApiPixabay.fetchGallerry().then(({ hits }) => {
     render(hits);
   });
-  showLoadMoreBtn(hits, totalHits);
+  // showLoadMoreBtn(hits, totalHits);
 }
 
 function clearGallery() {
