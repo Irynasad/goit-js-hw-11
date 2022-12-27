@@ -25,7 +25,11 @@
 
 .load-more {
   display: block;
-  margin: 0, auto;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: blue;
+  padding: 10px 20px;
+  margin-bottom: 10px;
 }
 .load-more.is-hidden {
   display: none;

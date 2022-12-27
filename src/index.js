@@ -3,66 +3,50 @@ import 'notiflix/dist/notiflix-3.2.5.min.css';
 import NewApiPixabay from './pictures.service';
 import simpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-// import LoadMoreBtn from './load-more-btn';
-// import axios from 'axios';
-// const axios = require('axios').default;
 import NewApiPixabay from './pictures.service';
 
 const newApiPixabay = new NewApiPixabay();
-// const loadMoreBtn = new LoadMoreBtn({ selector: '.load-more', hidden: true });
-// console.log(loadMoreBtn);
 
 const refs = {
   form: document.querySelector('#search-form'),
   container: document.querySelector('.gallery'),
   loadMoreBtn: document.querySelector('.load-more'),
 };
-// console.log(refs);
 
 refs.loadMoreBtn.classList.add('is-hidden');
+// let hits = [];
+let totalHits = 0;
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
 async function onSearch(e) {
   e.preventDefault();
-  console.log('форма слушает');
   clearGallery();
   newApiPixabay.valueForSearch = e.currentTarget.elements.searchQuery.value
     .trim()
     .toLowerCase();
-
-  console.log(newApiPixabay.valueForSearch);
-
-  // newApiPixabay.resetPage();
-  // clearGallery();
 
   if (!newApiPixabay.valueForSearch) {
     return;
   }
   newApiPixabay.resetPage();
   clearGallery();
-
-  // await fetchGallerry();
+  refs.loadMoreBtn.classList.add('is-hidden');
 
   await newApiPixabay
     .fetchGallerry()
-    .then(hits => {
-      console.log(hits);
-
+    .then(({ hits, totalHits }) => {
       if (hits.length === 0) {
         Notiflix.Notify.failure(
           'Sorry, there are no images matching your search query. Please try again.'
         );
       } else {
-        // console.log(data.totalHits); не працює - бо це поверхом вище.
-        // Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-        Notiflix.Notify.success(`Hooray! We found ДУЖЕ БАГАЦЬКО images.`);
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
         clearGallery();
         render(hits);
         lightbox.refresh();
-        showLoadMoreBtn(hits);
-        // refs.loadMoreBtn.classList.remove('is-hidden');
+        showLoadMoreBtn(hits, totalHits);
       }
     })
     .catch(error => {
@@ -79,31 +63,31 @@ const lightbox = new simpleLightbox('.gallery a', {
   heightRatio: 0.8,
 });
 
-function showLoadMoreBtn(hits) {
-  if (hits.length >= 40) {
-    return refs.loadMoreBtn.classList.remove('is-hidden');
+function showLoadMoreBtn(hits, totalHits) {
+  if (
+    hits.length === totalHits ||
+    newApiPixabay.incrementPage() ===
+      Math.ceil(totalHits / newApiPixabay.perPage)
+  ) {
+    refs.loadMoreBtn.classList.add('is-hidden');
   } else {
-    return;
+    refs.loadMoreBtn.classList.remove('is-hidden');
   }
-  // if (hits.length <= 40) {
-  //   return;
-  // } else {
-  //   refs.loadMoreBtn.classList.remove('is-hidden');
-  // }
 }
 
-async function fetchGallerry() {
-  await newApiPixabay.fetchGallerry().then((hits, totalHits) => {
-    render(hits);
-    return totalHits;
-  });
-}
 function render(hits) {
   refs.container.insertAdjacentHTML('beforeend', getItemTemplait(hits));
 }
 
-function onLoadMore() {
-  newApiPixabay.fetchGallerry().then(render);
+function onLoadMore(hits, totalHits) {
+  // showLoadMoreBtn(hits, totalHits);
+  newApiPixabay.incrementPage();
+  // showLoadMoreBtn(hits, totalHits);
+
+  newApiPixabay.fetchGallerry().then(({ hits }) => {
+    render(hits);
+  });
+  showLoadMoreBtn(hits, totalHits);
 }
 
 function clearGallery() {

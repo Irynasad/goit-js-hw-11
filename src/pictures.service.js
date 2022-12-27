@@ -11,26 +11,27 @@ export default class NewApiPixabay {
 
   fetchGallerry() {
     // console.log(this);
-    return axios
-      .get(`${this.#BASE_URL}`, {
-        params: {
-          key: this.#KEY,
-          q: this.valueForSearch,
-          image_type: 'photo',
-          orientation: 'horizontal',
-          safesearch: true,
-          per_page: this.perPage,
-          page: this.numberPage,
-        },
-      })
-      .then(data => {
-        return data.data;
-      })
-      .then(body => {
-        this.incrementPage();
-        return body.hits;
-        console.log(body.hits);
-      });
+    return (
+      axios
+        .get(`${this.#BASE_URL}`, {
+          params: {
+            key: this.#KEY,
+            q: this.valueForSearch,
+            image_type: 'photo',
+            orientation: 'horizontal',
+            safesearch: true,
+            per_page: this.perPage,
+            page: this.numberPage,
+          },
+        })
+        // .then(data => {
+        //   return data.data;
+        // })
+        .then(({ data }) => {
+          return data;
+          console.log(data);
+        })
+    );
   }
   // передавання значення инпута в кoнcтруктор через місточок гет+сет.
   // визначаємо та перезаписуємо змінну значення
