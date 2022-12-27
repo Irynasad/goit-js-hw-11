@@ -65,7 +65,8 @@ const lightbox = new simpleLightbox('.gallery a', {
 function showLoadMoreBtn(hits, totalHits) {
   if (
     hits.length === totalHits ||
-    newApiPixabay.numberPage === Math.floor(totalHits / hits.length)
+    // newApiPixabay.numberPage === Math.ceil(totalHits / hits.length)
+    hits.length < 40
   ) {
     refs.loadMoreBtn.classList.add('is-hidden');
   } else {
@@ -77,12 +78,12 @@ function render(hits) {
   refs.container.insertAdjacentHTML('beforeend', getItemTemplait(hits));
 }
 
-function onLoadMore(hits, totalHits) {
+function onLoadMore() {
   newApiPixabay.incrementPage();
-  newApiPixabay.fetchGallerry().then(({ hits }) => {
+  newApiPixabay.fetchGallerry().then(({ hits, totalHits }) => {
     render(hits);
+    showLoadMoreBtn(hits, totalHits);
   });
-  showLoadMoreBtn(hits, totalHits);
 }
 
 function clearGallery() {
